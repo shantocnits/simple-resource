@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>counter</title>
+
+    <style>
+     
+
+/* counter */
+.counter-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 80px;
+}
+.counter-section {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  width: 80%;
+}
+
+.counter {
+  flex: 1;
+  padding: 10px;
+}
+
+.counter h2 {
+  font-size: 46px;
+  font-family: var(--primary-font);
+  font-weight: bold;
+  margin: 0;
+}
+
+.counter p {
+  color: var(--text-color-1);
+  font-family: var(--secondary-font);
+  font-weight: 500;
+  white-space: nowrap;
+  font-size: 1.1em;
+  margin: 5px 0 0;
+}
+
+@media screen and (max-width: 992px) {
+  #about .about-info {
+    padding-left: 0px;
+    padding-top: 50px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .about_img_wrapper {
+    padding: 0px 22px 0px 0px;
+  }
+  .counter-section {
+    padding: 00px;
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .about_experience_img {
+    border-left: 14px solid #fff;
+    border-bottom: 14px solid #fff;
+  }
+
+  .about_experience_img::after {
+    box-shadow: -8px 8px #fff;
+    bottom: -2px;
+    left: -2px;
+  }
+
+  .counter h2 {
+    font-size: 1.8em;
+  }
+
+  .about_experience_overlay h2 {
+    font-size: 22px;
+  }
+
+  .about_experience_overlay p {
+    font-size: 12px;
+  }
+}
+    </style>
+  </head>
+  <body>
+    <div class="counter-wrapper">
+      <div class="row section counter-section">
+        <div class="col-lg-3 col-6">
+          <div class="counter">
+            <h2 class="count" data-target="12" data-format="M+">0</h2>
+            <p>Happy Customers</p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-6">
+          <div class="counter">
+            <h2 class="count" data-target="12">0</h2>
+            <p>Luxe Rooms</p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-6">
+          <div class="counter">
+            <h2 class="count" data-target="20">0</h2>
+            <p>Private Pools</p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-6">
+          <div class="counter">
+            <h2 class="count" data-target="10">0</h2>
+            <p>Restaurants</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  <!-- Our Menu End -->
+
+  <script src="./jquery-3.5.1.min.js"></script>
+
+    <script>
+      $(document).ready(function () {
+  var $counters = $(".count");
+  var duration = 2000; // Duration for all counters to reach their target in milliseconds
+  var counterStarted = [];
+
+  // Initialize counterStarted array to false for each counter
+  $counters.each(function () {
+    counterStarted.push(false);
+  });
+
+  function startCounting(index) {
+    if (counterStarted[index]) return;
+    counterStarted[index] = true;
+
+    var $counter = $counters.eq(index);
+    var target = parseInt($counter.data("target"));
+    var format = $counter.data("format"); // Read the format data
+    var current = 0;
+    var increment = target / (duration / 40); // Calculate increment based on duration and target
+    var speed = 50; // Speed of the counter update
+
+    var countUp = function () {
+      if (current < target) {
+        current += increment;
+        if (current > target) current = target; // Ensure it does not exceed the target
+        if (format) {
+          $counter.text(Math.floor(current) + format);
+        } else {
+          $counter.text(Math.floor(current));
+        }
+        setTimeout(countUp, speed);
+      } else {
+        if (format) {
+          $counter.text(target + format); // Append format if defined
+        } else {
+          $counter.text(target); // Otherwise, just the target value
+        }
+      }
+    };
+
+    countUp();
+  }
+
+  function checkIfInView() {
+    $counters.each(function (index) {
+      var $this = $(this);
+      var elementTop = $this.offset().top;
+      var elementBottom = elementTop + $this.outerHeight();
+      var viewportTop = $(window).scrollTop();
+      var viewportBottom = viewportTop + $(window).height();
+
+      // Check if the counter is in view (partially or fully)
+      if (elementBottom > viewportTop && elementTop < viewportBottom) {
+        startCounting(index);
+      }
+    });
+  }
+
+  // On scroll, check if the counter section is in view
+  $(window).on("scroll", function () {
+    checkIfInView();
+  });
+
+  // Initial check in case the section is already in view
+  checkIfInView();
+});
+
+
+    </script>
+  </body>
+</html>

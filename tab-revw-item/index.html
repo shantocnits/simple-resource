@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>review tab</title>
+
+    <style>
+     
+/* Our Menu Start */
+.menu-tabs {
+  margin: auto;
+  padding: 80px 0px 50px 0px;
+  border-radius: 10px;
+  background: var(--bg-1);
+}
+.menu-tabs .heading {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+}
+
+.menu-tabs .heading h2 {
+  margin-bottom: 20px;
+  font-size: 32px;
+  font-weight: bold;
+  font-family: var(--primary-font);
+}
+
+.menu-tabs .heading p {
+  max-width: 890px;
+  text-align: center;
+  margin-bottom: 30px;
+  font-weight: 500;
+  font-size: 16px;
+  font-family: var(--secondary-font);
+  color: var(--text-color-2);
+}
+
+.tab-buttons {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 60px;
+}
+
+.tab-btn {
+  background: none;
+  border: none;
+  padding: 8px 10px;
+  margin: 0 20px;
+  font-size: 18px;
+  font-weight: 600;
+  font-family: var(--secondary-font);
+  cursor: pointer;
+  border-bottom: 4px solid transparent;
+}
+
+.tab-btn.active {
+  color: var(--text-color-1);
+  border-bottom: 4px solid var(--secondary-color);
+}
+
+.tab-content {
+  opacity: 0;
+  transition: opacity 1s ease;
+  height: 0;
+  overflow: hidden;
+}
+
+.tab-content.active {
+  opacity: 1;
+  height: auto;
+  overflow: visible;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  transition: 0.4s;
+}
+
+.menu-item .title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.menu-item:hover .item-image {
+  border-right-width: 8px;
+  border-bottom-width: 8px;
+}
+
+.item-image {
+  width: 80px;
+  height: 80px;
+  border-radius: 12px;
+  overflow: hidden;
+  border-right: 0px solid var(--secondary-color);
+  border-bottom: 0px solid var(--secondary-color);
+  transition: 0.4s;
+}
+
+.item-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.item-details {
+  flex: 1;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.item-details h3 {
+  font-family: var(--primary-font);
+  margin: 0;
+  font-weight: 500;
+  font-size: 22px;
+  color: var(--text-color-1);
+}
+
+.item-details p {
+  font-size: 14px;
+  margin: 5px 0;
+  font-weight: 500;
+  padding-right: 50px;
+  font-family: var(--secondary-font);
+  color: var(--text-color-2);
+}
+
+.price {
+  font-size: 32px;
+  color: var(--text-color-1);
+  font-family: var(--primary-font);
+  font-weight: 500;
+  text-align: right;
+}
+
+/* Our Menu End */
+      /* Gallery Tab End */
+    </style>
+  </head>
+  <body>
+  <!-- Our Menu Start -->
+  <div class="menu-tabs">
+    <div class="container">
+      <div class="heading">
+        <div>
+          <h2>Discover our Menu</h2>
+          <p>
+            Our menu is a carefully curated selection of dishes that celebrate
+            the art of good food. Each item is crafted with the finest
+            ingredients, combining traditional flavors with a modern twist to
+            create an unforgettable dining experience.
+          </p>
+        </div>
+      </div>
+      <div class="tab-buttons">
+        <button class="tab-btn active" data-tab="main-dishes">
+          Main Dishes
+        </button>
+        <button class="tab-btn" data-tab="desserts">Desserts</button>
+        <button class="tab-btn" data-tab="drinks">Drinks</button>
+      </div>
+
+      <div id="main-dishes" class="tab-content active">
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="menu-item">
+              <div class="item-image">
+                <img src="./assets/img/restrurent-caffee/tab-img.png" alt="Salmon Riverland" />
+              </div>
+              <div class="item-details">
+                <div class="title">
+                  <h3>Salmon Riverland</h3>
+                  <span class="price">$29</span>
+                </div>
+                <p>
+                  Our Grilled Lemon Herb Salmon is a delightful blend of
+                  freshness and flavor. We start with a premium...
+                </p>
+              </div>
+            </div>
+            <div class="menu-item">
+              <div class="item-image">
+                <img src="./assets/img/restrurent-caffee/tab-img.png" alt="Strawberry Daiquir" />
+              </div>
+              <div class="item-details">
+                <div class="title">
+                  <h3>Strawberry Daiquir</h3>
+                  <span class="price">$20</span>
+                </div>
+                <p>
+                  A Strawberry Daiquir is a refreshing and vibrant cocktail
+                  that combines the sweet, juicy flavor of strawberries with
+                  t...
+                </p>
+              </div>
+            </div>
+            <div class="menu-item">
+              <div class="item-image">
+                <img src="./assets/img/restrurent-caffee/tab-img.png" alt="Four Cheese Garlic Bread" />
+              </div>
+              <div class="item-details">
+                <div class="title">
+                  <h3>Four Cheese Garlic Bread</h3>
+                  <span class="price">$12</span>
+                </div>
+                <p>
+                  This dish features thick slices of crusty bread, generously
+                  spread with a rich garlic butter mixture that infuses the...
+                </p>
+              </div>
+            </div>
+            <div class="menu-item">
+              <div class="item-image">
+                <img src="./assets/img/restrurent-caffee/tab-img.png" alt="Soft Shell Crab" />
+              </div>
+              <div class="item-details">
+                <div class="title">
+                  <h3>Soft Shell Crab</h3>
+                  <span class="price">$35</span>
+                </div>
+                <p>
+                  The taste is sweet and briny, with a slightly nutty flavor
+                  that is more pronounced than that of regular crab meat...
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="menu-item">
+              <div class="item-image">
+                <img src="./assets/img/restrurent-caffee/tab-img.png" alt="Salmon Riverland" />
+              </div>
+              <div class="item-details">
+                <div class="title">
+                  <h3>Kimchi Fried Rice</h3>
+                  <span class="price">$39</span>
+                </div>
+                <p>
+                  The dominant flavors come from the kimchi, which brings a
+                  punch of tanginess and heat.
+                </p>
+              </div>
+            </div>
+            <div class="menu-item">
+              <div class="item-image">
+                <img src="./assets/img/restrurent-caffee/tab-img.png" alt="Strawberry Daiquir" />
+              </div>
+              <div class="item-details">
+                <div class="title">
+                  <h3>Maki Sushi</h3>
+                  <span class="price">$35</span>
+                </div>
+                <p>
+                  The sushi rice, seasoned with rice vinegar, sugar, and salt,
+                  provides a mild, slightly tangy base with a savory umami
+                  flavor that...
+                </p>
+              </div>
+            </div>
+            <div class="menu-item">
+              <div class="item-image">
+                <img src="./assets/img/restrurent-caffee/tab-img.png" alt="Four Cheese Garlic Bread" />
+              </div>
+              <div class="item-details">
+                <div class="title">
+                  <h3>Alfredo Pasta</h3>
+                  <span class="price">$16</span>
+                </div>
+                <p>
+                  Alfredo pasta is known for its rich, creamy, and indulgent
+                  flavour, making it a favourite comfort food...
+                </p>
+              </div>
+            </div>
+            <div class="menu-item">
+              <div class="item-image">
+                <img src="./assets/img/restrurent-caffee/tab-img.png" alt="Soft Shell Crab" />
+              </div>
+              <div class="item-details">
+                <div class="title">
+                  <h3>Chicken Barbeque</h3>
+                  <span class="price">$24</span>
+                </div>
+                <p>
+                  As the chicken cooks, the sugars in the barbecue sauce
+                  caramelize, creating a sticky, slightly charred glaze on the
+                  surface.....
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="desserts" class="tab-content">
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="menu-item">
+              <div class="item-image">
+                <img src="./assets/img/restrurent-caffee/tab-img.png" alt="Salmon Riverland" />
+              </div>
+              <div class="item-details">
+                <div class="title">
+                  <h3>Salmon Riverland</h3>
+                  <span class="price">$29</span>
+                </div>
+                <p>
+                  Our Grilled Lemon Herb Salmon is a delightful blend of
+                  freshness and flavor. We start with a premium...
+                </p>
+              </div>
+            </div>
+            <div class="menu-item">
+              <div class="item-image">
+                <img src="./assets/img/restrurent-caffee/tab-img.png" alt="Strawberry Daiquir" />
+              </div>
+              <div class="item-details">
+                <div class="title">
+                  <h3>Strawberry Daiquir</h3>
+                  <span class="price">$20</span>
+                </div>
+                <p>
+                  A Strawberry Daiquir is a refreshing and vibrant cocktail
+                  that combines the sweet, juicy flavor of strawberries with
+                  t...
+                </p>
+              </div>
+            </div>
+            <div class="menu-item">
+              <div class="item-image">
+                <img src="./assets/img/restrurent-caffee/tab-img.png" alt="Four Cheese Garlic Bread" />
+              </div>
+              <div class="item-details">
+                <div class="title">
+                  <h3>Four Cheese Garlic Bread</h3>
+                  <span class="price">$12</span>
+                </div>
+                <p>
+                  This dish features thick slices of crusty bread, generously
+                  spread with a rich garlic butter mixture that infuses the...
+                </p>
+              </div>
+            </div>
+            <div class="menu-item">
+              <div class="item-image">
+                <img src="./assets/img/restrurent-caffee/tab-img.png" alt="Soft Shell Crab" />
+              </div>
+              <div class="item-details">
+                <div class="title">
+                  <h3>Soft Shell Crab</h3>
+                  <span class="price">$35</span>
+                </div>
+                <p>
+                  The taste is sweet and briny, with a slightly nutty flavor
+                  that is more pronounced than that of regular crab meat...
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="menu-item">
+              <div class="item-image">
+                <img src="./assets/img/restrurent-caffee/tab-img.png" alt="Salmon Riverland" />
+              </div>
+              <div class="item-details">
+                <div class="title">
+                  <h3>Kimchi Fried Rice</h3>
+                  <span class="price">$39</span>
+                </div>
+                <p>
+                  The dominant flavors come from the kimchi, which brings a
+                  punch of tanginess and heat.
+                </p>
+              </div>
+            </div>
+            <div class="menu-item">
+              <div class="item-image">
+                <img src="./assets/img/restrurent-caffee/tab-img.png" alt="Strawberry Daiquir" />
+              </div>
+              <div class="item-details">
+                <div class="title">
+                  <h3>Maki Sushi</h3>
+                  <span class="price">$35</span>
+                </div>
+                <p>
+                  The sushi rice, seasoned with rice vinegar, sugar, and salt,
+                  provides a mild, slightly tangy base with a savory umami
+                  flavor that...
+                </p>
+              </div>
+            </div>
+            <div class="menu-item">
+              <div class="item-image">
+                <img src="./assets/img/restrurent-caffee/tab-img.png" alt="Four Cheese Garlic Bread" />
+              </div>
+              <div class="item-details">
+                <div class="title">
+                  <h3>Alfredo Pasta</h3>
+                  <span class="price">$16</span>
+                </div>
+                <p>
+                  Alfredo pasta is known for its rich, creamy, and indulgent
+                  flavour, making it a favourite comfort food...
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="drinks" class="tab-content">
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="menu-item">
+              <div class="item-image">
+                <img src="./assets/img/restrurent-caffee/tab-img.png" alt="Salmon Riverland" />
+              </div>
+              <div class="item-details">
+                <div class="title">
+                  <h3>Salmon Riverland</h3>
+                  <span class="price">$29</span>
+                </div>
+                <p>
+                  Our Grilled Lemon Herb Salmon is a delightful blend of
+                  freshness and flavor. We start with a premium...
+                </p>
+              </div>
+            </div>
+            <div class="menu-item">
+              <div class="item-image">
+                <img src="./assets/img/restrurent-caffee/tab-img.png" alt="Strawberry Daiquir" />
+              </div>
+              <div class="item-details">
+                <div class="title">
+                  <h3>Strawberry Daiquir</h3>
+                  <span class="price">$20</span>
+                </div>
+                <p>
+                  A Strawberry Daiquir is a refreshing and vibrant cocktail
+                  that combines the sweet, juicy flavor of strawberries with
+                  t...
+                </p>
+              </div>
+            </div>
+            <div class="menu-item">
+              <div class="item-image">
+                <img src="./assets/img/restrurent-caffee/tab-img.png" alt="Four Cheese Garlic Bread" />
+              </div>
+              <div class="item-details">
+                <div class="title">
+                  <h3>Four Cheese Garlic Bread</h3>
+                  <span class="price">$12</span>
+                </div>
+                <p>
+                  This dish features thick slices of crusty bread, generously
+                  spread with a rich garlic butter mixture that infuses the...
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="menu-item">
+              <div class="item-image">
+                <img src="./assets/img/restrurent-caffee/tab-img.png" alt="Salmon Riverland" />
+              </div>
+              <div class="item-details">
+                <div class="title">
+                  <h3>Kimchi Fried Rice</h3>
+                  <span class="price">$39</span>
+                </div>
+                <p>
+                  The dominant flavors come from the kimchi, which brings a
+                  punch of tanginess and heat.
+                </p>
+              </div>
+            </div>
+            <div class="menu-item">
+              <div class="item-image">
+                <img src="./assets/img/restrurent-caffee/tab-img.png" alt="Strawberry Daiquir" />
+              </div>
+              <div class="item-details">
+                <div class="title">
+                  <h3>Maki Sushi</h3>
+                  <span class="price">$35</span>
+                </div>
+                <p>
+                  The sushi rice, seasoned with rice vinegar, sugar, and salt,
+                  provides a mild, slightly tangy base with a savory umami
+                  flavor that...
+                </p>
+              </div>
+            </div>
+            <div class="menu-item">
+              <div class="item-image">
+                <img src="./assets/img/restrurent-caffee/tab-img.png" alt="Four Cheese Garlic Bread" />
+              </div>
+              <div class="item-details">
+                <div class="title">
+                  <h3>Alfredo Pasta</h3>
+                  <span class="price">$16</span>
+                </div>
+                <p>
+                  Alfredo pasta is known for its rich, creamy, and indulgent
+                  flavour, making it a favourite comfort food...
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Our Menu End -->
+
+    <script>
+        document.querySelectorAll(".tab-btn").forEach((button) => {
+  button.addEventListener("click", () => {
+    const tabContainer = button.closest(".menu-tabs");
+    const tabNumber = button.dataset.tab;
+
+    // Remove active class from all buttons
+    tabContainer
+      .querySelectorAll(".tab-btn")
+      .forEach((btn) => btn.classList.remove("active"));
+
+    // Hide the current active tab
+    const currentActiveTab = tabContainer.querySelector(".tab-content.active");
+    if (currentActiveTab) {
+      currentActiveTab.classList.remove("active");
+    }
+
+    // Show the selected tab content with fade effect
+    const newActiveTab = tabContainer.querySelector(`#${tabNumber}`);
+    newActiveTab.classList.add("active");
+
+    // Add active class to the selected button
+    button.classList.add("active");
+  });
+});
+
+    </script>
+  </body>
+</html>
