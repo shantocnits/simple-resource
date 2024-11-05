@@ -220,20 +220,19 @@
       <p>Congratulations, you've got free shipping!</p>
       <ul class="cart_items">
         <li>
-          <div class="item">
-            <span>DJI Osmo Mobile 6</span>
-            <span
-              >$149.99 × <span class="quantity" id="quantity1">1</span></span
-            >
+          <div class="price_container">
+            <span class="price">$149.99 × <span class="quantity">1</span></span>
             <div class="quantity_wrapper">
-              <button class="btn-decrease" data-target="quantity1">-</button>
-              <input
-                type="text"
-                class="quantity-input"
-                id="quantity1-input"
-                value="1"
-              />
-              <button class="btn-increase" data-target="quantity1">+</button>
+              <div class="wrap">
+                <button class="btn-decrease">-</button>
+                <input
+                  type="text"
+                  class="quantity-input"
+                  id="quantity-input"
+                  value="1"
+                />
+                <button class="btn-increase">+</button>
+              </div>
             </div>
           </div>
           <div class="action">
@@ -241,18 +240,19 @@
           </div>
         </li>
         <li>
-          <div class="item">
-            <span>Another Item</span>
-            <span>$99.99 × <span class="quantity" id="quantity2">1</span></span>
+          <div class="price_container">
+            <span class="price">$149.99 × <span class="quantity">1</span></span>
             <div class="quantity_wrapper">
-              <button class="btn-decrease" data-target="quantity2">-</button>
-              <input
-                type="text"
-                class="quantity-input"
-                id="quantity2-input"
-                value="1"
-              />
-              <button class="btn-increase" data-target="quantity2">+</button>
+              <div class="wrap">
+                <button class="btn-decrease">-</button>
+                <input
+                  type="text"
+                  class="quantity-input"
+                  id="quantity-input"
+                  value="1"
+                />
+                <button class="btn-increase">+</button>
+              </div>
             </div>
           </div>
           <div class="action">
@@ -278,8 +278,7 @@
         overlay.classList.toggle("active");
       }
 
-      function updateQuantity(action, targetId) {
-        const quantityInput = document.getElementById(targetId + "-input");
+      function updateQuantity(action, quantityInput) {
         let currentQuantity = parseInt(quantityInput.value);
 
         if (action === "increase") {
@@ -289,10 +288,15 @@
         }
 
         quantityInput.value = currentQuantity; // Update the input field
-        document.getElementById(targetId).innerText = currentQuantity; // Update the displayed quantity
+
+        // Find the quantity display element within the same container and update it
+        const displayElement = quantityInput
+          .closest(".price_container")
+          .querySelector(".quantity");
+        displayElement.innerText = currentQuantity; // Update the displayed quantity
       }
 
-      // Event delegation for quantity buttons
+      // Event listeners for the quantity buttons
       document
         .querySelectorAll(".btn-increase, .btn-decrease")
         .forEach((button) => {
@@ -300,8 +304,10 @@
             const action = this.classList.contains("btn-increase")
               ? "increase"
               : "decrease";
-            const targetId = this.getAttribute("data-target");
-            updateQuantity(action, targetId);
+            // Locate the quantity input field within the same container as the button
+            const quantityInput =
+              this.closest(".wrap").querySelector(".quantity-input");
+            updateQuantity(action, quantityInput);
           });
         });
     </script>
