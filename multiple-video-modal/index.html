@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Multiple Modals with Direct Iframe Video</title>
+
+  <style>
+    /* Fullscreen modal */
+    .modal {
+      display: none; /* Hidden by default */
+      position: fixed; /* Stay in place */
+      z-index: 9999; /* Ensure modal is on top */
+      left: 0;
+      top: 0;
+      width: 100%; /* Full width */
+      height: 100%; /* Full height */
+      background-color: rgba(0, 0, 0, 0.8); /* Black with transparency */
+    }
+
+    .modal-content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80%;
+      height: 80%;
+      background-color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 8px;
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      color: white;
+      font-size: 30px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: #aaa;
+      text-decoration: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Buttons to open different modals -->
+  <button class="openModalBtn" data-modal="1">Watch Video 1</button>
+  <button class="openModalBtn" data-modal="2">Watch Video 2</button>
+  <button class="openModalBtn" data-modal="3">Watch Video 3</button>
+
+  <!-- Modal 1 -->
+  <div id="myModal1" class="modal">
+    <div class="modal-content">
+      <span class="close" data-close="1">&times;</span>
+      <iframe id="videoFrame1" src="https://www.youtube.com/embed/8QZmnW9CobA" allow="fullscreen"></iframe>
+    </div>
+  </div>
+
+  <!-- Modal 2 -->
+  <div id="myModal2" class="modal">
+    <div class="modal-content">
+      <span class="close" data-close="2">&times;</span>
+      <iframe id="videoFrame2" src="https://www.youtube.com/embed/jNQXAC9IVRw" allow="fullscreen"></iframe>
+    </div>
+  </div>
+
+  <!-- Modal 3 -->
+  <div id="myModal3" class="modal">
+    <div class="modal-content">
+      <span class="close" data-close="3">&times;</span>
+      <iframe id="videoFrame3" src="https://www.youtube.com/embed/dQw4w9WgXcQ" allow="fullscreen"></iframe>
+    </div>
+  </div>
+
+  <script>
+    // Get all buttons and modals
+    const modalBtn = document.querySelectorAll('.openModalBtn');
+    const modals = document.querySelectorAll('.modal');
+    const closeBtn = document.querySelectorAll('.close');
+  
+    // Open the modal and start the video when the button is clicked
+    modalBtn.forEach(btn => {
+      btn.onclick = function () {
+        const modalId = btn.getAttribute('data-modal');
+        const modal = document.getElementById(`myModal${modalId}`);
+        const iframe = modal.querySelector('iframe');
+        
+        // Add autoplay to the iframe source
+        iframe.src = iframe.src.includes("autoplay=1") ? iframe.src : iframe.src + "?autoplay=1";
+        
+        modal.style.display = "block"; // Show the modal
+      };
+    });
+  
+    // Close the modal and stop the video when the close button is clicked
+    closeBtn.forEach(btn => {
+      btn.onclick = function () {
+        const modalId = btn.getAttribute('data-close');
+        const modal = document.getElementById(`myModal${modalId}`);
+        modal.style.display = "none"; // Hide the modal
+  
+        // Stop the video by resetting the iframe's source
+        const iframe = modal.querySelector('iframe');
+        iframe.src = iframe.src.split("?")[0];  // Remove autoplay and reset the video
+      };
+    });
+  
+    // Close the modal if the user clicks outside the modal content
+    window.onclick = function (event) {
+      modals.forEach(modal => {
+        if (event.target === modal) {
+          modal.style.display = "none"; // Hide the modal
+  
+          // Stop the video by resetting the iframe's source
+          const iframe = modal.querySelector('iframe');
+          iframe.src = iframe.src.split("?")[0];  // Remove autoplay and reset the video
+        }
+      });
+    };
+  </script>
+  
+
+</body>
+
+</html>
