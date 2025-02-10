@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animated CPU Performance Progress Bars</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #111;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        .container {
+            width: 60%;
+            margin: auto;
+        }
+        h2 {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        p {
+            font-size: 14px;
+            color: #bbb;
+        }
+        .bar-container {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+            background: #222;
+            border-radius: 10px;
+            padding: 10px;
+        }
+        .icon {
+            width: 40px;
+            height: 40px;
+            background: gray;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+        .progress-bar {
+            flex-grow: 1;
+            height: 20px;
+            border-radius: 10px;
+            position: relative;
+            background: #333;
+            overflow: hidden;
+        }
+        .fill {
+            height: 100%;
+            position: absolute;
+            left: 0;
+            width: 0%;
+            transition: width 2s ease-in-out;
+        }
+        .value {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 14px;
+            font-weight: bold;
+        }
+        /* Colors for bars */
+        .bar-1 .fill { background: #007bff; }
+        .bar-2 .fill { background: #28a745; }
+        .bar-3 .fill { background: #6f42c1; }
+        .bar-4 .fill { background: #f8b400; }
+        .bar-5 .fill { background: #17a2b8; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Industry Leading Single Core Performance</h2>
+        <p>Take a look at how our CPU compares to others.</p>
+
+        <div class="bar-container bar-1">
+          <div class="icon"></div>
+          <div class="progress-bar">
+              <div class="fill" data-width="90%">
+                <span class="value">4.7-5.6 GHz</span>
+              </div>
+              
+          </div>
+      </div>
+
+      <div class="bar-container bar-2">
+          <div class="icon"></div>
+          <div class="progress-bar">
+              <div class="fill" data-width="40%">
+                <span class="value">3.1 GHz</span>
+              </div>
+             
+          </div>
+      </div>
+
+      <div class="bar-container bar-3">
+          <div class="icon"></div>
+          <div class="progress-bar">
+              <div class="fill" data-width="75%">
+                <span class="value">4.7-5.6 GHz</span>
+              </div>
+              
+          </div>
+      </div>
+
+      <div class="bar-container bar-4">
+          <div class="icon"></div>
+          <div class="progress-bar">
+              <div class="fill" data-width="85%">
+                <span class="value">4.7-5.6 GHz</span>
+              </div>
+              
+          </div>
+      </div>
+
+      <div class="bar-container bar-5">
+          <div class="icon"></div>
+          <div class="progress-bar">
+              <div class="fill" data-width="75%">
+                <span class="value">4.7-5.6 GHz</span>
+              </div>
+              
+          </div>
+      </div>
+
+        <p style="font-size: 12px; color: #888;">The data are collected from 2024 comparing with Hexzan VM start price. This might differ in the future.</p>
+    </div>
+
+    <script>
+        window.onload = function() {
+            document.querySelectorAll('.fill').forEach((bar, index) => {
+                setTimeout(() => {
+                    bar.style.width = bar.getAttribute('data-width');
+                }, index * 300); // Delay each bar for a smooth effect
+            });
+        };
+    </script>
+
+</body>
+</html>
