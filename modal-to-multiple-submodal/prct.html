@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nested Modals with Overlay</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    /* Ensure the second modal appears above the first modal */
+    #newbrand {
+      z-index: 1060;
+    }
+
+    /* Custom backdrop for the second modal */
+    .custom-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5); /* Darker overlay */
+      z-index: 1055; /* Below the second modal, above the first modal */
+      display: none;
+    }
+
+    /* Ensure Bootstrap modal backdrop is positioned correctly */
+    .modal-backdrop.show {
+      z-index: 1050;
+    }
+  </style>
+</head>
+<body>
+  <!-- Button to Open First Modal -->
+  <button type="button" class="btn btn-primary mt-3 ms-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    Open First Modal
+  </button>
+
+  <!-- First Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">First Modal</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>This is the first modal. Click the button below to open the second modal.</p>
+          <button class="btn btn-primary openSecondModalBtn">Open Second Modal</button>
+          <button class="btn btn-primary openSecondModalBtn">Open Second Modal</button>
+          <button class="btn btn-primary openSecondModalBtn">Open Second Modal (Another Button)</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Custom Backdrop for Second Modal -->
+  <div class="custom-backdrop" id="newbrandBackdrop"></div>
+
+  <!-- Second Modal -->
+  <div class="modal fade" id="newbrand" tabindex="-1" aria-labelledby="newbrandLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="newbrandLabel">Second Modal</h5>
+          <button type="button" class="btn-close" id="closenewbrand" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group mb-3">
+              <label for="inputName">Name</label>
+              <input type="text" class="form-control" id="inputName" placeholder="Enter your name" required>
+            </div>
+            <div class="form-group mb-3">
+              <label for="inputEmail">Email</label>
+              <input type="email" class="form-control" id="inputEmail" placeholder="Enter your email" required>
+            </div>
+            <div class="form-group mb-3">
+              <label for="inputPhone">Phone</label>
+              <input type="tel" class="form-control" id="inputPhone" placeholder="Enter your phone number" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS Bundle (includes Popper) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <!-- Custom JavaScript -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      let exampleModal = new bootstrap.Modal(document.getElementById('exampleModal'));
+      let newbrand = new bootstrap.Modal(document.getElementById('newbrand'));
+      let backdrop = document.getElementById('newbrandBackdrop');
+
+      // Open Second Modal and Show Custom Backdrop
+      document.querySelectorAll('.openSecondModalBtn').forEach(function (button) {
+        button.addEventListener('click', function () {
+          backdrop.style.display = 'block'; // Show backdrop
+          newbrand.show();
+        });
+      });
+
+      // Close Second Modal and Remove Backdrop
+      function closenewbrand() {
+        newbrand.hide();
+      }
+
+      // Listen for the hidden event of the second modal
+      document.getElementById('newbrand').addEventListener('hidden.bs.modal', function () {
+        backdrop.style.display = 'none'; // Hide backdrop when modal is hidden
+      });
+
+      document.getElementById('closenewbrand').addEventListener('click', closenewbrand);
+
+      // Click on Custom Backdrop to Close Second Modal
+      backdrop.addEventListener('click', closenewbrand);
+    });
+  </script>
+</body>
+</html>
