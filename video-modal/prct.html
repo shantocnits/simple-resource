@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Bootstrap Video Modal</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      /* Ensure modal is perfectly centered */
+      .modal-dialog {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Video Thumbnails -->
+    <div
+      class="content-area"
+      data-src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&rel=0"
+    >
+      <div class="video-card">
+        <img src="./assets/img/about-modal-img2.png" alt="Video Thumbnail" />
+        <button
+          class="play-button"
+          data-bs-toggle="modal"
+          data-bs-target="#videoModal"
+        >
+          <svg
+            width="74"
+            height="74"
+            viewBox="0 0 74 74"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle cx="37" cy="37" r="37" fill="#0069FF" />
+            <path
+              d="M53 33.5359C55.6667 35.0755 55.6667 38.9245 53 40.4641L32 52.5885C29.3333 54.1281 26 52.2036 26 49.1244L26 24.8756C26 21.7964 29.3333 19.8719 32 21.4115L53 33.5359Z"
+              fill="white"
+            />
+          </svg>
+          <span>Play</span>
+        </button>
+      </div>
+    </div>
+
+    <div
+      class="content-area"
+      data-src="https://www.youtube.com/embed/3JZ_D3ELwOQ?autoplay=1&rel=0"
+    >
+      <div class="video-card">
+        <img src="./assets/img/about-modal-img2.png" alt="Video Thumbnail" />
+        <button
+          class="play-button"
+          data-bs-toggle="modal"
+          data-bs-target="#videoModal"
+        >
+          <svg
+            width="74"
+            height="74"
+            viewBox="0 0 74 74"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle cx="37" cy="37" r="37" fill="#0069FF" />
+            <path
+              d="M53 33.5359C55.6667 35.0755 55.6667 38.9245 53 40.4641L32 52.5885C29.3333 54.1281 26 52.2036 26 49.1244L26 24.8756C26 21.7964 29.3333 19.8719 32 21.4115L53 33.5359Z"
+              fill="white"
+            />
+          </svg>
+          <span>Play</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Video Modal -->
+    <div
+      class="modal fade"
+      id="videoModal"
+      tabindex="-1"
+      aria-labelledby="videoModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="videoModalLabel">Video Player</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="ratio ratio-16x9">
+              <iframe
+                id="videoFrame"
+                src="#"
+                frameborder="0"
+                allowfullscreen
+              ></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const videoButtons = document.querySelectorAll(".play-button");
+        const videoFrame = document.getElementById("videoFrame");
+        const videoModal = document.getElementById("videoModal");
+
+        // When a button is clicked, set the modal video source
+        videoButtons.forEach((button) => {
+          button.addEventListener("click", function () {
+            const videoSrc =
+              this.closest(".content-area").getAttribute("data-src");
+            videoFrame.src = videoSrc;
+          });
+        });
+
+        // Stop video when modal is closed
+        videoModal.addEventListener("hidden.bs.modal", function () {
+          videoFrame.src = "";
+        });
+      });
+    </script>
+  </body>
+</html>
