@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing Toggle</title>
+    <style>
+        .toggle-button-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .toggle-button {
+            position: relative;
+            width: 50px;
+            height: 25px;
+            background: #ccc;
+            border-radius: 15px;
+            cursor: pointer;
+        }
+        .checkbox {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .knob {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            top: 2.5px;
+            left: 3px;
+            transition: 0.3s;
+        }
+        .checkbox:checked + .knob {
+            left: 27px;
+        }
+    </style>
+</head>
+<body>
+    <div class="toggle">
+        <h2>Select Billing Cycle</h2>
+        <div class="toggle-button-container">
+            <span>Monthly</span>
+            <label class="toggle-button">
+                <input type="checkbox" class="checkbox" id="billingToggle">
+                <div class="knob"></div>
+            </label>
+            <span>Annually</span>
+        </div>
+    </div>
+
+    <div class="toggle">
+        <h2>Select Currency</h2>
+        <div class="toggle-button-container">
+            <span>USD</span>
+            <label class="toggle-button">
+                <input type="checkbox" class="checkbox" id="currencyToggle">
+                <div class="knob"></div>
+            </label>
+            <span>BDT</span>
+        </div>
+    </div>
+
+    <div class="card-head">
+        <h3 class="title">Starter</h3>
+        <p class="price">
+            <span>$6.99</span> <small>/monthly</small>
+        </p>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const billingToggle = document.getElementById("billingToggle");
+            const currencyToggle = document.getElementById("currencyToggle");
+            const priceElement = document.querySelector(".price span");
+            const priceLabel = document.querySelector(".price small");
+            
+            let billingCycle = "monthly";
+            let currency = "USD";
+            
+            // Static data for BDT to USD conversion
+            const bdtToUsdData = {
+                monthly: {
+                    "starter": { BDT: "৳750", USD: "$6.99" },
+                },
+                yearly: {
+                    "starter": { BDT: "৳7500", USD: "$69.99" },
+                }
+            };
+
+            // Function to update price based on billing cycle and currency
+            function updatePrice() {
+                const packageName = "starter";
+                const priceData = bdtToUsdData[billingCycle][packageName][currency];
+                
+                if (priceData) {
+                    priceElement.textContent = priceData;
+                    priceLabel.textContent = billingCycle === "monthly" ? "/monthly" : "/yearly";
+                }
+            }
+
+            // Event listeners for toggles
+            billingToggle.addEventListener("change", function () {
+                billingCycle = this.checked ? "yearly" : "monthly";
+                updatePrice();
+            });
+
+            currencyToggle.addEventListener("change", function () {
+                currency = this.checked ? "BDT" : "USD";
+                updatePrice();
+            });
+
+            updatePrice(); // Initialize with default values
+        });
+    </script>
+</body>
+</html>
