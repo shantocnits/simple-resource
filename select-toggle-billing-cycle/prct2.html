@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing Toggle</title>
+    <style>
+        .toggle-button-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .toggle-button {
+            position: relative;
+            width: 50px;
+            height: 25px;
+            background: #ccc;
+            border-radius: 15px;
+            cursor: pointer;
+        }
+        .checkbox {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .knob {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            top: 2.5px;
+            left: 3px;
+            transition: 0.3s;
+        }
+        .checkbox:checked + .knob {
+            left: 27px;
+        }
+    </style>
+</head>
+<body>
+    <div class="toggle">
+        <h2>Select Billing Cycle</h2>
+        <div class="toggle-button-container">
+            <span>Monthly</span>
+            <label class="toggle-button">
+                <input type="checkbox" class="checkbox" id="billingToggle">
+                <div class="knob"></div>
+            </label>
+            <span>Annually</span>
+        </div>
+    </div>
+
+    <div class="toggle">
+        <h2>Select Currency</h2>
+        <div class="toggle-button-container">
+            <span>$</span>
+            <label class="toggle-button">
+                <input type="checkbox" class="checkbox" id="currencyToggle">
+                <div class="knob"></div>
+            </label>
+            <span>৳</span>
+        </div>
+    </div>
+
+    <div class="pricing-cards">
+        <div class="card-head" id="starter">
+            <h3 class="title">starter</h3>
+            <p class="price"><span></span> <small></small></p>
+        </div>
+        <div class="card-head" id="vOne">
+            <h3 class="title">Plan One</h3>
+            <p class="price"><span></span> <small></small></p>
+        </div>
+        <div class="card-head" id="vTwo">
+            <h3 class="title">Plan Two</h3>
+            <p class="price"><span></span> <small></small></p>
+        </div>
+        <div class="card-head" id="vThree">
+            <h3 class="title">Plan Three</h3>
+            <p class="price"><span></span> <small></small></p>
+        </div>
+        <div class="card-head" id="vFour">
+            <h3 class="title">Plan Four</h3>
+            <p class="price"><span></span> <small></small></p>
+        </div>
+        <div class="card-head" id="vFive">
+            <h3 class="title">Plan Five</h3>
+            <p class="price"><span></span> <small></small></p>
+        </div>
+        <div class="card-head" id="vSix">
+            <h3 class="title">Plan Six</h3>
+            <p class="price"><span></span> <small></small></p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const billingToggle = document.getElementById("billingToggle");
+            const currencyToggle = document.getElementById("currencyToggle");
+            
+            let billingCycle = "monthly";
+            let currency = "USD";
+            
+            // Static data for BDT to USD conversion
+            const priceData = {
+                monthly: {
+                    starter: { BDT: "৳50", USD: "$1.99" },
+                    vOne: { BDT: "৳750", USD: "$6.99" },
+                    vTwo: { BDT: "৳1400", USD: "$12.99" },
+                    vThree: { BDT: "৳2950", USD: "$27.10" },
+                    vFour: { BDT: "৳4000", USD: "$36.99" },
+                    vFive: { BDT: "৳5000", USD: "$45.99" },
+                    vSix: { BDT: "৳6000", USD: "$54.99" }
+                },
+                yearly: {
+                    starter: { BDT: "৳50", USD: "$1.99" },
+                    vOne: { BDT: "৳7500", USD: "$69.99" },
+                    vTwo: { BDT: "৳14000", USD: "$129.99" },
+                    vThree: { BDT: "৳29500", USD: "$271.00" },
+                    vFour: { BDT: "৳40000", USD: "$369.99" },
+                    vFive: { BDT: "৳50000", USD: "$459.99" },
+                    vSix: { BDT: "৳60000", USD: "$549.99" }
+                }
+            };
+
+            function updatePrices() {
+                Object.keys(priceData[billingCycle]).forEach(plan => {
+                    const planElement = document.getElementById(plan);
+                    if (planElement) {
+                        const priceElement = planElement.querySelector(".price span");
+                        const priceLabel = planElement.querySelector(".price small");
+                        priceElement.textContent = priceData[billingCycle][plan][currency];
+                        priceLabel.textContent = billingCycle === "monthly" ? "/monthly" : "/yearly";
+                    }
+                });
+            }
+
+            billingToggle.addEventListener("change", function () {
+                billingCycle = this.checked ? "yearly" : "monthly";
+                updatePrices();
+            });
+
+            currencyToggle.addEventListener("change", function () {
+                currency = this.checked ? "BDT" : "USD";
+                updatePrices();
+            });
+
+            updatePrices(); // Initialize with default values
+        });
+    </script>
+</body>
+</html>
