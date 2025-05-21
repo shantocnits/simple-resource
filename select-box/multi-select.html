@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Multi Select with Search Filter</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+      }
+
+      .custom_select_container {
+        position: relative;
+        width: 300px;
+        margin-top: 50px;
+        margin-bottom: 20px;
+      }
+
+      .custom_select_container .original_select {
+        position: absolute;
+        opacity: 0;
+        height: 0;
+        width: 0;
+      }
+
+      .custom_select_container .custom_select {
+        background-color: #f0f0f0;
+        padding: 10px 15px;
+        cursor: pointer;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        min-height: 20px;
+      }
+
+      .custom_select_container .custom_select:hover {
+        background-color: #e9e9e9;
+      }
+
+      .custom_select_container .custom_select .icon {
+        transition: transform 0.3s ease;
+      }
+
+      .custom_select_container .custom_options {
+        position: absolute;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        width: 100%;
+        z-index: 1000;
+        display: none;
+        max-height: 250px;
+        overflow-y: auto;
+        top: 100%;
+        margin-top: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      .custom_select_container .custom_options.top {
+        top: auto;
+        bottom: 100%;
+        margin-top: 0;
+        margin-bottom: 5px;
+      }
+
+      .custom_select_container .custom_option {
+        padding: 10px 15px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+        display: flex;
+        align-items: center;
+      }
+
+      .custom_select_container .custom_option:hover {
+        background-color: #f5f5f5;
+      }
+
+      .custom_select_container .custom_option.selected {
+        background-color: #e1f5fe;
+        font-weight: bold;
+      }
+
+      .custom_select_container .search_container {
+        padding: 8px;
+        border-bottom: 1px solid #eee;
+        position: sticky;
+        top: 0;
+        background-color: #fff;
+        z-index: 2;
+      }
+
+      .custom_select_container .search_input {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
+
+      .custom_select_container .show {
+        display: block;
+      }
+
+      .custom_select_container .rotate_icon {
+        transform: rotate(180deg);
+      }
+
+      .custom_select_container .custom_options::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      .custom_select_container .custom_options::-webkit-scrollbar-track {
+        background: #f1f1f1;
+      }
+
+      .custom_select_container .custom_options::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 4px;
+      }
+
+      .custom_select_container .custom_options::-webkit-scrollbar-thumb:hover {
+        background: #555;
+      }
+
+      .custom_select_container .selected_tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+        margin-right: 10px;
+      }
+
+      .custom_select_container .tag {
+        background-color: #e1f5fe;
+        padding: 3px 8px;
+        border-radius: 4px;
+        font-size: 12px;
+        display: flex;
+        align-items: center;
+      }
+
+      .custom_select_container .tag .remove {
+        margin-left: 5px;
+        cursor: pointer;
+        color: #666;
+      }
+
+      .custom_select_container .tag .remove:hover {
+        color: #000;
+      }
+
+      .custom_select_container .placeholder {
+        color: #999;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Custom Multi-Select Dropdown with Search</h1>
+
+    <div class="custom_select_container">
+      <select id="mySelect" class="original_select" multiple>
+        <option value="1">Apple</option>
+        <option value="2">Banana</option>
+        <option value="3">Orange</option>
+        <option value="4">Mango</option>
+        <option value="5">Grapes</option>
+        <option value="6">Pineapple</option>
+        <option value="7">Watermelon</option>
+        <option value="8">Strawberry</option>
+        <option value="9">Blueberry</option>
+        <option value="10">Kiwi</option>
+      </select>
+
+      <div class="custom_select">
+        <div class="selected_tags">
+          <span class="placeholder">Select options...</span>
+        </div>
+        <span class="icon"><i class="fas fa-angle-down"></i></span>
+      </div>
+
+      <div class="custom_options">
+        <div class="search_container">
+          <input
+            type="text"
+            class="search_input"
+            placeholder="Search options..."
+          />
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const container = document.querySelector(".custom_select_container");
+        const originalSelect = container.querySelector(".original_select");
+        const customSelect = container.querySelector(".custom_select");
+        const selectedTagsContainer = container.querySelector(".selected_tags");
+        const placeholder = container.querySelector(".placeholder");
+        const customOptions = container.querySelector(".custom_options");
+        const icon = container.querySelector(".icon i");
+
+        let searchInput; // Declare with let so we can reassign it later
+        let selectedValues = [];
+
+        // Create custom options
+        function createCustomOptions() {
+          customOptions.innerHTML = "";
+
+          // Add search input
+          const searchContainer = document.createElement("div");
+          searchContainer.className = "search_container";
+          searchContainer.innerHTML =
+            '<input type="text" class="search_input" placeholder="Search options...">';
+          customOptions.appendChild(searchContainer);
+
+          // Add options
+          Array.from(originalSelect.options).forEach((option) => {
+            const optionDiv = document.createElement("div");
+            optionDiv.className = "custom_option";
+            optionDiv.textContent = option.text;
+            optionDiv.dataset.value = option.value;
+
+            if (option.selected) {
+              optionDiv.classList.add("selected");
+              if (!selectedValues.includes(option.value)) {
+                selectedValues.push(option.value);
+              }
+            }
+
+            customOptions.appendChild(optionDiv);
+          });
+
+          updateSelectedTags();
+          
+          // Reassign the new search input
+          searchInput = container.querySelector(".search_input");
+          setupSearch();
+        }
+
+        // Update selected tags display
+        function updateSelectedTags() {
+          selectedTagsContainer.innerHTML = "";
+          
+          if (selectedValues.length === 0) {
+            selectedTagsContainer.appendChild(placeholder);
+            placeholder.style.display = "block";
+            return;
+          }
+          
+          placeholder.style.display = "none";
+          
+          Array.from(originalSelect.options).forEach((option) => {
+            if (selectedValues.includes(option.value)) {
+              const tag = document.createElement("span");
+              tag.className = "tag";
+              tag.innerHTML = `
+                ${option.text}
+                <span class="remove" data-value="${option.value}">×</span>
+              `;
+              selectedTagsContainer.appendChild(tag);
+            }
+          });
+          
+          // Add remove event listeners
+          selectedTagsContainer.querySelectorAll(".remove").forEach(removeBtn => {
+            removeBtn.addEventListener("click", function(e) {
+              e.stopPropagation();
+              const valueToRemove = this.dataset.value;
+              selectedValues = selectedValues.filter(v => v !== valueToRemove);
+              
+              // Update original select
+              Array.from(originalSelect.options).forEach(option => {
+                if (option.value === valueToRemove) {
+                  option.selected = false;
+                }
+              });
+              
+              // Update UI
+              updateSelectedTags();
+              updateCustomOptionsSelection();
+              
+              const event = new Event("change");
+              originalSelect.dispatchEvent(event);
+            });
+          });
+        }
+        
+        // Update custom options selection state
+        function updateCustomOptionsSelection() {
+          customOptions.querySelectorAll(".custom_option").forEach(option => {
+            if (selectedValues.includes(option.dataset.value)) {
+              option.classList.add("selected");
+            } else {
+              option.classList.remove("selected");
+            }
+          });
+        }
+
+        // Setup search functionality
+        function setupSearch() {
+          if (!searchInput) return;
+
+          // Prevent dropdown from closing when clicking search input
+          searchInput.addEventListener("click", function (e) {
+            e.stopPropagation();
+          });
+
+          searchInput.addEventListener("mousedown", function (e) {
+            e.stopPropagation(); // Also prevent mousedown closing
+          });
+
+          searchInput.addEventListener("input", function (e) {
+            e.stopPropagation();
+            const searchTerm = this.value.toLowerCase();
+            const options = customOptions.querySelectorAll(".custom_option");
+
+            options.forEach((option) => {
+              const text = option.textContent.toLowerCase();
+              option.style.display = text.includes(searchTerm)
+                ? "block"
+                : "none";
+            });
+          });
+        }
+
+        // Check if dropdown should open upwards
+        function shouldOpenUpwards() {
+          const containerRect = container.getBoundingClientRect();
+          const spaceBelow = window.innerHeight - containerRect.bottom;
+          const spaceAbove = containerRect.top;
+          const dropdownHeight = 250; // Approximate height of dropdown
+
+          return spaceBelow < dropdownHeight && spaceAbove > dropdownHeight;
+        }
+
+        // Toggle dropdown
+        customSelect.addEventListener("click", function (e) {
+          e.stopPropagation();
+
+          // Check position before toggling
+          if (shouldOpenUpwards()) {
+            customOptions.classList.add("top");
+          } else {
+            customOptions.classList.remove("top");
+          }
+
+          customOptions.classList.toggle("show");
+          icon.classList.toggle("rotate_icon");
+
+          if (customOptions.classList.contains("show") && searchInput) {
+            searchInput.focus();
+          }
+        });
+
+        // Select option
+        customOptions.addEventListener("click", function (e) {
+          if (e.target.classList.contains("custom_option")) {
+            const value = e.target.dataset.value;
+            
+            if (selectedValues.includes(value)) {
+              // Remove from selection
+              selectedValues = selectedValues.filter(v => v !== value);
+              Array.from(originalSelect.options).forEach(option => {
+                if (option.value === value) {
+                  option.selected = false;
+                }
+              });
+            } else {
+              // Add to selection
+              selectedValues.push(value);
+              Array.from(originalSelect.options).forEach(option => {
+                if (option.value === value) {
+                  option.selected = true;
+                }
+              });
+            }
+            
+            updateSelectedTags();
+            updateCustomOptionsSelection();
+            
+            const event = new Event("change");
+            originalSelect.dispatchEvent(event);
+          }
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener("click", function () {
+          if (customOptions.classList.contains("show")) {
+            customOptions.classList.remove("show");
+            icon.classList.remove("rotate_icon");
+          }
+        });
+
+        // Initialize
+        createCustomOptions();
+
+        // Sync if original select changes programmatically
+        originalSelect.addEventListener("change", function () {
+          selectedValues = Array.from(this.selectedOptions).map(opt => opt.value);
+          updateSelectedTags();
+          updateCustomOptionsSelection();
+        });
+      });
+    </script>
+  </body>
+</html>
